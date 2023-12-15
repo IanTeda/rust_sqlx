@@ -12,9 +12,9 @@ services:
     networks:
       - postgres_network
     volumes:
-      - ./data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  
+      - ./init/:/docker-entrypoint-initdb.d/
+      - ./postgres_data/:/var/lib/postgresql/data/
+
   pgadmin:
     # https://hub.docker.com/r/dpage/pgadmin4
     image: dpage/pgadmin4:${PGADMIN_VERSION:-latest}
@@ -28,11 +28,11 @@ services:
     networks:
       - postgres_network
     volumes:
-      - rust_sqlx_volume:/var/lib/pgadmin
+      - pgadmin:/var/lib/pgadmin
 
 volumes:
-  rust_sqlx_volume:
+  pgadmin:
 
-networks: 
+networks:
   postgres_network:
     driver: bridge
